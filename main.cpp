@@ -1,38 +1,56 @@
+#include "User.h"
 #include <iostream>
-#include <curl/curl.h>
-
-size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    FILE* fp = (FILE*)userp;
-    return fwrite(contents, size, nmemb, fp);
-}
+#include <vector>
+#include <algorithm>
 
 int main() {
-    const char* url = "https://www.example.com/api/data.json";
-    const char* savePath = "data.json";
+    // Wczytanie użytkowników z pliku
+    std::vector<User> users = User::loadFromFile();
 
-    CURL* curl = curl_easy_init();
-    if (curl) {
-        FILE* fp = fopen(savePath, "wb");
-        if (!fp) {
-            std::cerr << "Nie można otworzyć pliku do zapisu." << std::endl;
-            return 1;
+    int choice;
+    bool running = true;
+
+    while (running) {
+        
+        std::cout << "========================\n";
+        std::cout << "1. Register\n";
+        std::cout << "2. Login\n";
+        std::cout << "3. Exit\n";
+        std::cout << "========================\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+
+        switch (choice) {
+        case 1: {
+            // New User registration
+            User newUser;
+            newUser.registerUser(users);
+            break;
         }
+        case 2: {
+            // User login
+            std::string email, password;
+            std::cout << "Enter your email: ";
+            std::cin >> email;
+            std::cout << "Enter your password: ";
+            std::cin >> password;
 
-        curl_easy_setopt(curl, CURLOPT_URL, url);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-
-        CURLcode res = curl_easy_perform(curl);
-        fclose(fp);
-
-        if (res == CURLE_OK) {
-            std::cout << "Pobrano plik JSON do: " << savePath << std::endl;
-        } else {
-            std::cerr << "Błąd pobierania pliku: " << curl_easy_strerror(res) << std::endl;
+            if (User* loggedInUser = User::loginUser(users, email, password)) {
+                std::cout << "Welcome, " << loggedInUser->getUsername() << "! You are now logged in!\n";
+            } else {
+                std::cout << "Login failed. Please check your credentials.\n";
+            }
+            break;
         }
-
-        curl_easy_cleanup(curl);
+        case 3:
+            // Exit program
+            running = false;
+            std::cout << "Exiting program. Goodbye!\n";
+            break;
+        default:
+            std::cout << "Invalid choice. Please try again.\n";
+        }
     }
-    
+
     return 0;
 }

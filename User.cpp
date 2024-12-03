@@ -1,11 +1,12 @@
-#include "Lib/User.h" 
+#include "User.h" 
 #include <iostream>
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <string>
 
 User::User(int id,const std::string& name, const std::string& email,const std::string& password)
-: userID(id), username(name), email(email), password(password) {}
+: userID(id), username(name), email(email), password(password) {};
 
 int User::getUserID() const {
     return userID;
@@ -37,6 +38,9 @@ void User::registerUser(std::vector<User>& users){
     std::cout<<"Enter your password: ";
     std::cin>>password;
 
+    // Convert email to lowercase before registration
+    std::transform(email.begin(), email.end(), email.begin(), ::tolower);
+
     // Check if the email is already in use
     auto it = std::find_if(users.begin(),users.end(),[&email](const User& user){
         return user.getEmail() == email;
@@ -49,6 +53,7 @@ void User::registerUser(std::vector<User>& users){
 
     // Register the user
     int newID = users.empty() ? 1 : users.back().getUserID() + 1;
+    
     users.emplace_back(newID, name, email, password);
     std::cout<<"User registered successfully\n";
 
@@ -72,16 +77,16 @@ void User::saveToFile(const std::vector<User>& users) {
 }
 
 // Login user
-bool User::loginUser(std::vector<User>& users, const std::string& email, const std::string& password){
-    auto it = std::find_if(users.begin(),users.end(),[&email](const User& user){
+User* User::loginUser(std::vector<User>& users, const std::string& email, const std::string& password) {
+    auto it = std::find_if(users.begin(), users.end(), [&email](const User& user) {
         return user.getEmail() == email;
     });
-    if (it != users.end() && it->verifyPassword(password)){
-        std::cout<<"Login successful\n";
-        return true;
+    if (it != users.end() && it->verifyPassword(password)) {
+        std::cout << "Login successful\n";
+        return &(*it);
     }
-    std::cout<<"Invalid email or password\n";
-    return false;
+    std::cout << "Invalid email or password\n";
+    return nullptr;
 }
 
 std::vector<User> User::loadFromFile() {
