@@ -11,7 +11,8 @@ class User {
         std::string username; 
         std::string password;
         std::string email;
-    
+        std::vector<int> reservations;
+
     public: 
         // Constructor
         User() = default;
@@ -29,7 +30,10 @@ class User {
         static User* loginUser(std::vector<User>& users, const std::string& email, const std::string& password);
         static std::vector<User> loadFromFile();
         static bool checkUserExists(const std::string& email);
-        
+        // Reservations 
+        void addReservation(int trainID);
+        void cancelReservation(int trainID);
+        std::vector<int> getReservations() const;
 };   
 
 #endif // USER_H

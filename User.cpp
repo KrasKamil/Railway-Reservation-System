@@ -1,4 +1,4 @@
-#include "User.h" 
+#include "Lib/User.h" 
 #include <iostream>
 #include <algorithm>
 #include <fstream>
@@ -128,3 +128,19 @@ bool User::checkUserExists(const std::string& email) {
     return it != users.end();
 }
 
+// Reservations
+
+void User::addReservation(int trainID) {
+    reservations.push_back(trainID);
+}
+
+void User::cancelReservation(int trainID) {
+    auto it = std::find(reservations.begin(), reservations.end(), trainID);
+    if (it != reservations.end()) {
+        reservations.erase(it);
+    }
+}
+
+std::vector<int> User::getReservations() const {
+    return reservations;
+}

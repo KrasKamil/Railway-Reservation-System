@@ -1,2 +1,2 @@
-1,Kamil,Kras@student.agh.edu.pl,MartaMarta
-2,Kamil,kras@student.ahg,Helllo
+1,Kamil,kras@student.agh.edu.pl,password
+2,ADMIN,admin,admin
