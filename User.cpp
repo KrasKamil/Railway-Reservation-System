@@ -1,9 +1,12 @@
 #include "Lib/User.h" 
+#include "Lib/json.hpp"
 #include <iostream>
 #include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <string>
+
+using json = nlohmann::json;
 
 User::User(int id,const std::string& name, const std::string& email,const std::string& password)
 : userID(id), username(name), email(email), password(password) {};
@@ -61,18 +64,24 @@ void User::registerUser(std::vector<User>& users){
 }
 
 void User::saveToFile(const std::vector<User>& users) {
-    std::ofstream file("users.txt");
+    json jUsers = json::array();
+
+    for (const auto& user : users) {
+        jUsers.push_back({
+            {"userID", user.getUserID()},
+            {"username", user.getUsername()},
+            {"email", user.getEmail()},
+            {"password", user.getPassword()}
+        });
+    }
+
+    std::ofstream file("Data/users.json");
     if (!file) {
         std::cout << "Error: Could not open file for writing\n";
         return;
     }
 
-    for (const auto& user : users) {
-        file << user.getUserID() << ","
-             << user.getUsername() << ","
-             << user.getEmail() << ","
-             << user.getPassword() << "\n";
-    }
+    file << jUsers.dump(4); // 4-space indentation for readability
     file.close();
 }
 
@@ -91,28 +100,25 @@ User* User::loginUser(std::vector<User>& users, const std::string& email, const 
 
 std::vector<User> User::loadFromFile() {
     std::vector<User> users;
-    std::ifstream file("users.txt");
+    std::ifstream file("Data/users.json");
     
     if (!file) {
         std::cout << "No existing users file found\n";
         return users;
     }
 
-    std::string line;
-    while (std::getline(file, line)) {
-        std::stringstream ss(line);
-        std::string idStr, name, email, password;
-        
-        // Parse CSV format
-        std::getline(ss, idStr, ',');
-        std::getline(ss, name, ',');
-        std::getline(ss, email, ',');
-        std::getline(ss, password);
-        
-        int id = std::stoi(idStr);
-        users.emplace_back(id, name, email, password);
+    json jUsers;
+    file >> jUsers;
+
+    for (const auto& jUser : jUsers) {
+        users.emplace_back(
+            jUser["userID"].get<int>(),
+            jUser["username"].get<std::string>(),
+            jUser["email"].get<std::string>(),
+            jUser["password"].get<std::string>()
+        );
     }
-    
+
     file.close();
     return users;
 }

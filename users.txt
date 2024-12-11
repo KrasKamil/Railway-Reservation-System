@@ -1,2 +1,0 @@
-1,Kamil,kras@student.agh.edu.pl,password
-2,ADMIN,admin,admin
