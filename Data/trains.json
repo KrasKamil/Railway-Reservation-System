@@ -1,0 +1,62 @@
+[
+    {
+        "trainID": 1,
+        "name": "Express A",
+        "startCity": "Kraków",
+        "endCity": "Warszawa",
+        "availableSeats": 100,
+        "ticketPrice": 50.0,
+        "arrivalTime": "12:45 PM",
+        "departureTime": "08:15 AM"
+    },
+    {
+        "trainID": 2,
+        "name": "Intercity B",
+        "startCity": "Poznań",
+        "endCity": "Wrocław",
+        "availableSeats": 80,
+        "ticketPrice": 75.0,
+        "arrivalTime": "03:30 PM",
+        "departureTime": "11:10 AM"
+    },
+    {
+        "trainID": 3,
+        "name": "Regional C",
+        "startCity": "Szczecin",
+        "endCity": "Kołobrzeg",
+        "availableSeats": 120,
+        "ticketPrice": 30.0,
+        "arrivalTime": "05:45 PM",
+        "departureTime": "01:20 PM"
+    },
+    {
+        "trainID": 4,
+        "name": "Express D",
+        "startCity": "Gdańsk",
+        "endCity": "Olsztyn",
+        "availableSeats": 90,
+        "ticketPrice": 60.0,
+        "arrivalTime": "07:00 PM",
+        "departureTime": "03:00 AM"
+    },
+    {
+        "trainID": 5,
+        "name": "Intercity E",
+        "startCity": "Lublin",
+        "endCity": "Rzeszów",
+        "availableSeats": 110,
+        "ticketPrice": 40.0,
+        "arrivalTime": "09:00 PM",
+        "departureTime": "05:00 PM"
+    },
+    {
+        "trainID": 6,
+        "name": "Regional F",
+        "startCity": "Bydgoszcz",
+        "endCity": "Toruń",
+        "availableSeats": 100,
+        "ticketPrice": 35.0,
+        "arrivalTime": "11:00 PM",
+        "departureTime": "07:00 PM"
+    }
+]

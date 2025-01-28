@@ -6,6 +6,15 @@
 #include <vector>
 #include <algorithm> // For std::find_if
 #include <limits>    // Include this header for numeric_limits
+#include <cstdlib>   // For system()
+
+void clearConsole() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
 
 int main() {
     // Load users from file
@@ -34,10 +43,12 @@ int main() {
             continue;
         }
 
+        clearConsole(); // Clear console after each choice
+
         switch (choice) {
         case 1: {
             // Register new user
-            User newUser;
+            User newUser("temp");
             newUser.registerUser(users);
             std::cout << rm;  // Return to main menu after registration
             break;
@@ -67,8 +78,11 @@ int main() {
                         std::cin.clear();
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                         std::cout << "Invalid input. Please enter a number from the menu.\n";
+                        std::cout << rm;  // Re-print the logged-in menu after invalid input
                         continue;
                     }
+
+                    clearConsole(); // Clear console after each choice
 
                     switch (bookingChoice) {
                     case 1:
@@ -139,7 +153,15 @@ int main() {
                         }
                         break;
                     }
-                    case 5:
+                     case 5:
+                        // View ticket
+                        if (loggedInUser) {
+                            ReservationManager::viewTicket(*loggedInUser, trains);
+                        } else {
+                            std::cout << "You must be logged in to view your ticket.\n";
+                        }
+                        break;
+                    case 6:
                         // Log out
                         rm.setLoginStatus(false);
                         inBookingMenu = false;
@@ -148,6 +170,7 @@ int main() {
                         break;
                     default:
                         std::cout << "Invalid choice. Please try again.\n";
+                        std::cout << rm;  // Re-print the logged-in menu after invalid choice
                         break;
                     }
                 }
@@ -157,11 +180,10 @@ int main() {
             }
             break;
         }
-        case 3:
-            // Exit the program
+        case 0: {
             running = false;
-            std::cout << "Exiting program. Goodbye!\n";
             break;
+        }
         default:
             std::cout << "Invalid choice. Please try again.\n";
             std::cout << rm;  // Reprint main menu after invalid choice

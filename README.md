@@ -28,3 +28,9 @@ The project is structured into several C++ files and includes the following comp
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/railway-reservation-system.git
+
+2. ***Run the program 
+   ```bash
+   g++ main.cpp TrainManager.cpp ReservationManager.cpp train.cpp User.cpp -o Myprogram
+   ./Myprogram.exe
+
