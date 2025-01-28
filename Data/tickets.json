@@ -1,0 +1,22 @@
+[
+    {
+        "arrivalTime": "12:45 PM",
+        "departureTime": "08:15 AM",
+        "endCity": "Warszawa",
+        "startCity": "Kraków",
+        "ticketPrice": 50.0,
+        "trainID": 1,
+        "trainName": "Express A",
+        "username": "Kamil"
+    },
+    {
+        "arrivalTime": "12:45 PM",
+        "departureTime": "08:15 AM",
+        "endCity": "Warszawa",
+        "startCity": "Kraków",
+        "ticketPrice": 50.0,
+        "trainID": 1,
+        "trainName": "Express A",
+        "username": "admin"
+    }
+]

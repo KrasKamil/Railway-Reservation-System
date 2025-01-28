@@ -2,10 +2,11 @@
 #include "Lib/TrainManager.h"
 #include "Lib/Train.h"
 #include "Lib/ReservationManager.h"
+#include "Lib/ticket.h"
 #include <iostream>
 #include <vector>
 #include <algorithm> // For std::find_if
-#include <limits>    // Include this header for numeric_limits
+#include <limits>    // For numeric_limits
 #include <cstdlib>   // For system()
 
 void clearConsole() {
@@ -101,6 +102,7 @@ int main() {
                         if (train != trains.end()) {
                             if (train->reserveSeat()) {
                                 loggedInUser->addReservation(trainID);
+                                saveTicketToFile(*loggedInUser, *train);
                                 std::cout << "Ticket booked successfully for Train: " << train->getTrainName() << "\n";
                             } else {
                                 std::cout << "No seats available on this train.\n";
@@ -141,10 +143,8 @@ int main() {
                                 [cancelID](const Train& t) { return t.getTrainID() == cancelID; });
 
                             // If the train exists, cancel the reservation
-                            if (trainToCancel != trains.end()) {
-                                loggedInUser->cancelReservation(cancelID);
-                                trainToCancel->cancelSeat();
-                                std::cout << "Reservation for Train ID: " << cancelID << " has been canceled.\n";
+                              if (trainToCancel != trains.end()) {
+                                rm.cancelReservation(*loggedInUser, cancelID, trains);
                             } else {
                                 std::cout << "Invalid Train ID. Please try again.\n";
                             }
@@ -180,7 +180,7 @@ int main() {
             }
             break;
         }
-        case 0: {
+        case 3: {
             running = false;
             break;
         }

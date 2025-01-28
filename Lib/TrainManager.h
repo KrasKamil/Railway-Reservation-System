@@ -8,5 +8,6 @@ class TrainManager {
 public:
     static std::vector<Train> loadTrains(); // Deklaracja funkcji
     static void displayTrains(const std::vector<Train>& trains);
+    void updateAvailableSeats(std::vector<Train>& trains);
 };
 #endif

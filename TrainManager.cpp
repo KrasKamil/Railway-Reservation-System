@@ -1,10 +1,11 @@
 #include "Lib/TrainManager.h"
-#include "Lib/json.hpp" // Handles JSON parsing
+#include "Lib/json.hpp"
 #include <fstream>
 #include <iostream>
-#include <iomanip> 
+#include <iomanip>
+#include <unordered_map>
 
-using json = nlohmann::json; 
+using json = nlohmann::json;
 
 std::vector<Train> TrainManager::loadTrains() {
     std::vector<Train> trains;
@@ -33,6 +34,41 @@ std::vector<Train> TrainManager::loadTrains() {
 
     file.close();
     return trains;
+}
+
+void TrainManager::updateAvailableSeats(std::vector<Train>& trains) {
+    std::ifstream file("Data/tickets.json");
+    if (!file.is_open()) {
+        std::cerr << "Unable to open file for reading ticket data.\n";
+        return;
+    }
+
+    json tickets;
+    try {
+        file >> tickets;
+    } catch (const json::parse_error& e) {
+        std::cerr << "Error parsing tickets.json: " << e.what() << '\n';
+        return;
+    }
+    file.close();
+
+    if (!tickets.is_array()) {
+        std::cerr << "Invalid ticket data format.\n";
+        return;
+    }
+
+    // Count reservations for each train
+    std::unordered_map<int, int> reservationCount;
+    for (const auto& ticket : tickets) {
+        int trainID = ticket["trainID"];
+        reservationCount[trainID]++;
+    }
+
+    // Update available seats for each train
+    for (auto& train : trains) {
+        int reservedSeats = reservationCount[train.getTrainID()];
+        train.setAvailableSeats(train.getAvailableSeats() - reservedSeats);
+    }
 }
 
 void TrainManager::displayTrains(const std::vector<Train>& trains) {

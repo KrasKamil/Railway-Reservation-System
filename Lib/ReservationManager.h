@@ -13,7 +13,8 @@ class ReservationManager {
     public:
         // Displays reservations for a given user
         static void displayUserReservations(const User& user, const std::vector<Train>& trains);
-        static void viewTicket(const User& user, const std::vector<Train>& trains); 
+        static void viewTicket(const User& user, const std::vector<Train>& trains);
+        void cancelReservation(User& user, int trainID, std::vector<Train>& trains);
 
         ReservationManager() : isLoggedIn(false) {}
         void setLoginStatus(bool status) {

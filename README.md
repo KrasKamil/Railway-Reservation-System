@@ -7,8 +7,9 @@ A simple and efficient railway reservation management system. This project aims 
 - **User Management**: Login system for users with secure authentication.
 - **Train Management**: Manage trains, including details about schedules, availability, and more.
 - **Reservation Management**: Simple and intuitive interface to manage reservations.
+- **Ticket Management**: Save and search for tickets.
 - **Error Handling**: Fixed dummy errors and added input validation to enhance system robustness.
-- **GUI Support**: Supports a basic interface using the Awicons Vista Artistic 2 Hot Train icon.
+- **Polish Characters Support**: Proper handling and display of Polish characters.
 
 ## Project Structure
 
@@ -18,19 +19,26 @@ The project is structured into several C++ files and includes the following comp
 - `User.cpp`: Contains the implementation of the User class for handling user login and authentication.
 - `ReservationManager.cpp`: Manages reservations, including creating, modifying, and canceling them.
 - `TrainManager.cpp`: Handles train-related operations such as adding, viewing, and updating train schedules.
-- `Awicons-Vista-Artistic-2-Hot-Train.ico`: The icon used for the graphical interface of the program.
-- `MYprogram.exe`: The executable file for the system.
-- `Railway-Reservation-System.code-workspace`: The workspace configuration for your code editor.
-- `desktop.ini`: Configuration file for desktop icon settings.
+- `train.cpp`: Contains the implementation of the Train class for handling train details.
+- `ticket.cpp`: Manages ticket-related operations such as saving and searching for tickets.
+- `Lib/User.h`: Header file for the User class.
+- `Lib/ReservationManager.h`: Header file for the ReservationManager class.
+- `Lib/TrainManager.h`: Header file for the TrainManager class.
+- `Lib/Train.h`: Header file for the Train class.
+- `Lib/ticket.h`: Header file for ticket-related functions.
+- `Data/users.json`: JSON file containing user data.
+- `Data/trains.json`: JSON file containing train data.
+- `Data/tickets.json`: JSON file containing ticket data.
 
 ## Installation
 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/railway-reservation-system.git
+   ```
 
-2. ***Run the program 
+2. **Run the program:**
    ```bash
-   g++ main.cpp TrainManager.cpp ReservationManager.cpp train.cpp User.cpp -o Myprogram
+   g++ main.cpp TrainManager.cpp ReservationManager.cpp ticket.cpp train.cpp User.cpp -o Myprogram
    ./Myprogram.exe
-
+   ```
